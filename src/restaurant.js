@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import PropTypes from 'prop-types';
+import PlaceList from './restaurant-places';
 
 const restaurants = {
     "mediterranean": {
@@ -38,28 +38,47 @@ const restaurants = {
     }
 }
 
-const RestaurantList = () => {
-    return (
-        Object.keys(restaurants).map((cuisine)=>
-            <ul>
-                <li><h3>Cuisine: {cuisine}</h3></li>
-                {Object.keys(restaurants[cuisine]).map(resto => 
-                    <ul>
-                        <li><b>Restaurant:</b> {resto}</li>
-                        {restaurants[cuisine][resto].map((dish) =>
-                            <ul>
-                                <li>{dish}</li>
-                            </ul>
-                        )}
-                    </ul>
-                )}  
-            </ul>
+class RestaurantList extends Component{
+    state = {
+        cuisineData: {}
+    }
+
+    handleClick = (e,cuisine) => {
+        e.preventDefault();
+        this.setState({
+            cuisineData: restaurants[cuisine]
+        });
+    }
+
+    render(){
+        const { cuisineData } = this.state;
+
+        return (
+            <div>
+                {Object.keys(restaurants).map((cuisine) =>
+                    <button onClick = {(e) => this.handleClick(e, cuisine)} key={cuisine}>
+                        <h3>Cuisine: {cuisine}</h3>
+                    </button>
+                )}
+                <PlaceList cuisineData={cuisineData}/>
+            </div>
         )
-    )
+    }
 }
 
 export default RestaurantList;
 
 // RestaurantList.PropTypes = {
-//     restaurantData: PropTypes.array
+//     cuisineData: PropTypes.object
 // }
+
+                    /* {Object.keys(restaurants[cuisine]).map(resto => 
+                        <ul>
+                            <li><b>Restaurant:</b> {resto}</li>
+                            {restaurants[cuisine][resto].map((dish) =>
+                                <ul>
+                                    <li>{dish}</li>
+                                </ul>
+                            )}
+                        </ul>
+                    )}   */
