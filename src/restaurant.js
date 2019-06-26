@@ -1,3 +1,7 @@
+import React from 'react';
+
+import PropTypes from 'prop-types';
+
 const restaurants = {
     "mediterranean": {
         "Mediterranean Grill": [
@@ -33,3 +37,29 @@ const restaurants = {
         ]
     }
 }
+
+const RestaurantList = () => {
+    return (
+        Object.keys(restaurants).map((cuisine)=>
+            <ul>
+                <li><h3>Cuisine: {cuisine}</h3></li>
+                {Object.keys(restaurants[cuisine]).map(resto => 
+                    <ul>
+                        <li><b>Restaurant:</b> {resto}</li>
+                        {restaurants[cuisine][resto].map((dish) =>
+                            <ul>
+                                <li>{dish}</li>
+                            </ul>
+                        )}
+                    </ul>
+                )}  
+            </ul>
+        )
+    )
+}
+
+export default RestaurantList;
+
+// RestaurantList.PropTypes = {
+//     restaurantData: PropTypes.array
+// }
